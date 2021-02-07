@@ -7,19 +7,18 @@ let connection
 
 function readMysqlConfigFile () {
   const res = fs.readFileSync(path.join(__dirname, '../../static/mysqlConfig.json'), 'utf-8')
-  return JSON.parse(res)
+  console.log(res)
 }
 
 export default function (win, renderer) {
-  // 获取本地数据库连接配置
-  const mysqlConfigData = readMysqlConfigFile()
-
+  readMysqlConfigFile()
   // 初始化连接数据库
-  createMysqlConnection(win, mysqlConfigData[0])
-
-  // 获取本地数据库配置信息
-  ipcMain.on('readDatabase', (event) => {
-    getReadDatabase(win)
+  createMysqlConnection(win, {
+    host: 'localhost',
+    user: 'root',
+    password: '123456',
+    database: 'cloudcity',
+    port: 3306
   })
 
   // 连接数据库
@@ -36,16 +35,6 @@ export default function (win, renderer) {
   // 获取表字段
   ipcMain.on('queryTableFields', (event, arg) => {
     getTableFields(win, arg)
-  })
-}
-
-// 获取本地数据库配置信息
-function getReadDatabase (win) {
-  const mysqlConfigData = readMysqlConfigFile()
-  win.webContents.send('readDatabase-notice', {
-    code: 1,
-    msg: '查询成功',
-    data: mysqlConfigData[0]
   })
 }
 

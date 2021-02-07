@@ -15,7 +15,6 @@
       title="连接数据库"
       :visible.sync="dialogVisible"
       width="50%"
-      append-to-body
       :before-close="beforeClose"
     >
       <el-form
@@ -56,11 +55,11 @@ export default {
     return {
       dialogVisible: false,
       ruleForm: {
-        host: '',
-        user: '',
-        password: '',
-        database: '',
-        port: 0
+        host: 'localhost',
+        user: 'root',
+        password: '123456',
+        database: 'cloudcity',
+        port: 3306
       },
       rules: {
         host: [

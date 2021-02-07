@@ -15,7 +15,6 @@
       title="连接数据库"
       :visible.sync="dialogVisible"
       width="50%"
-      append-to-body
       :before-close="beforeClose"
     >
       <el-form
@@ -55,13 +54,7 @@ export default {
   data () {
     return {
       dialogVisible: false,
-      ruleForm: {
-        host: '',
-        user: '',
-        password: '',
-        database: '',
-        port: 0
-      },
+      ruleForm: {},
       rules: {
         host: [
           { required: true, message: '请输入主机名或IP地址', trigger: 'blur' }

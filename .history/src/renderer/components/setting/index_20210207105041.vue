@@ -15,7 +15,6 @@
       title="连接数据库"
       :visible.sync="dialogVisible"
       width="50%"
-      append-to-body
       :before-close="beforeClose"
     >
       <el-form

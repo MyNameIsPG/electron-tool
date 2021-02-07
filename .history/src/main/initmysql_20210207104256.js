@@ -7,7 +7,7 @@ let connection
 
 function readMysqlConfigFile () {
   const res = fs.readFileSync(path.join(__dirname, '../../static/mysqlConfig.json'), 'utf-8')
-  return JSON.parse(res)
+  return res
 }
 
 export default function (win, renderer) {
@@ -16,11 +16,6 @@ export default function (win, renderer) {
 
   // 初始化连接数据库
   createMysqlConnection(win, mysqlConfigData[0])
-
-  // 获取本地数据库配置信息
-  ipcMain.on('readDatabase', (event) => {
-    getReadDatabase(win)
-  })
 
   // 连接数据库
   ipcMain.on('connectToDatabase', (event, arg) => {
@@ -39,18 +34,9 @@ export default function (win, renderer) {
   })
 }
 
-// 获取本地数据库配置信息
-function getReadDatabase (win) {
-  const mysqlConfigData = readMysqlConfigFile()
-  win.webContents.send('readDatabase-notice', {
-    code: 1,
-    msg: '查询成功',
-    data: mysqlConfigData[0]
-  })
-}
-
 // 创建数据库实例
 function createMysqlConnection (win, config) {
+  console.log(config)
   connection = mysql.createConnection(config)
   connection.connect((err) => {
     if (err) {

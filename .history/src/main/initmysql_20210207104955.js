@@ -51,6 +51,7 @@ function getReadDatabase (win) {
 
 // 创建数据库实例
 function createMysqlConnection (win, config) {
+  console.log(config)
   connection = mysql.createConnection(config)
   connection.connect((err) => {
     if (err) {

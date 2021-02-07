@@ -18,8 +18,13 @@ export default function (win, renderer) {
   createMysqlConnection(win, mysqlConfigData[0])
 
   // 获取本地数据库配置信息
-  ipcMain.on('readDatabase', (event) => {
-    getReadDatabase(win)
+  ipcMain.on('readDatabase', (event, arg) => {
+    const mysqlConfigData = readMysqlConfigFile()
+    win.webContents.send('connectToDatabase-notice', {
+      code: -1,
+      msg: '查询失败',
+      data: mysqlConfigData
+    })
   })
 
   // 连接数据库
@@ -39,18 +44,9 @@ export default function (win, renderer) {
   })
 }
 
-// 获取本地数据库配置信息
-function getReadDatabase (win) {
-  const mysqlConfigData = readMysqlConfigFile()
-  win.webContents.send('readDatabase-notice', {
-    code: 1,
-    msg: '查询成功',
-    data: mysqlConfigData[0]
-  })
-}
-
 // 创建数据库实例
 function createMysqlConnection (win, config) {
+  console.log(config)
   connection = mysql.createConnection(config)
   connection.connect((err) => {
     if (err) {
