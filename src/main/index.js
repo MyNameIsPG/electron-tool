@@ -1,7 +1,8 @@
 'use strict'
 
 import { app, BrowserWindow, Menu } from 'electron'
-import _init from './initmysql'
+import _initMysql from './initmysql'
+import _initSwagger from './initswagger'
 
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
@@ -37,7 +38,9 @@ function createWindow () {
     mainWindow = null
   })
 
-  _init(mainWindow, mainWindow.webContents)
+  _initMysql(mainWindow, mainWindow.webContents)
+
+  _initSwagger(mainWindow, mainWindow.webContents)
 }
 
 app.on('ready', createWindow)
